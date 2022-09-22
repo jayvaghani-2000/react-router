@@ -1,4 +1,4 @@
-import { Link, Route, Routes } from 'react-router-dom';
+import { Link, NavLink, Route, Routes, useLocation, useRoutes } from 'react-router-dom';
 import './App.css';
 import Home from './home';
 import Book from './book';
@@ -8,6 +8,23 @@ import NotFound from './404';
 import BookLayout from './bookLayout/bookLayout';
 
 function App() {
+  const location = useLocation()
+  console.log('aaaaaaaa', location)
+  const element = useRoutes([
+    {
+        path:"/",
+        element:<Home/>,
+        
+
+    },{
+      path:"/book/*",
+      element:<BookList/>
+    },
+    {
+      path:"*",
+      element:<NotFound/>
+    }
+])
   return (
     <div className="App">
       {/* <Routes location={"/book"}>
@@ -17,16 +34,16 @@ function App() {
       <nav>
         <ul>
           <li>
-            <Link to={"/"}>Home</Link>
+            <Link to={"/"} state="hiii">Home</Link>
           </li>
           <li>
-            <Link to={"/book"}>Book </Link>
+            <NavLink style={({isActive}) => ({color:isActive ? "yellow":"red"})} to={"/book/2"} state="hiii Book">Book </NavLink>
           </li>
         </ul>
       </nav>
-      <Routes>
+      {/* <Routes> */}
         {/* takes jsx as element */}
-        <Route path="/" element={<Home/>} />  
+        {/* <Route path="/" element={<Home/>} />   */}
         {/* <Route element={<BookLayout />}>
           define index
           <Route index element={<BookList/>} />
@@ -44,10 +61,11 @@ function App() {
         <Route path="/book/:id" element={<Book/>} /> 
         <Route path="/book/new" element={<NewBook/>} /> 
         Match anything */}
-        <Route path="/book/*" element={<BookList/>}/>
-        <Route path="*" element={<NotFound />} /> 
-        <Route />
-      </Routes>
+        {/* <Route path="/book/*" element={<BookList/>}/> */}
+        {/* <Route path="*" element={<NotFound />} />  */}
+        {/* <Route /> */}
+      {/* </Routes> */}
+      {element}
     </div>
   );
 }
